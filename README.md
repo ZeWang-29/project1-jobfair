@@ -118,17 +118,22 @@ streamlit run app.py
       Guan, Xin  and
       Thaler, Michael  and
       Koshiyama, Adriano  and
-      Lu, Qinyang  and
+      Lu, Skylar  and
       Beepath, Sachin  and
-      Ertekin Jr., Ediz  and
+      Ertekin, Ediz  and
       Perez-Ortiz, Maria",
+    editor = "Al-Onaizan, Yaser  and
+      Bansal, Mohit  and
+      Chen, Yun-Nung",
     booktitle = "Findings of the Association for Computational Linguistics: EMNLP 2024",
     month = nov,
     year = "2024",
     address = "Miami, Florida, USA",
     publisher = "Association for Computational Linguistics",
     url = "https://aclanthology.org/2024.findings-emnlp.184/",
+    doi = "10.18653/v1/2024.findings-emnlp.184",
     pages = "3227--3246",
+    abstract = "The use of Large Language Models (LLMs) in hiring has led to legislative actions to protect vulnerable demographic groups. This paper presents a novel framework for benchmarking hierarchical gender hiring bias in Large Language Models (LLMs) for resume scoring, revealing significant issues of reverse gender hiring bias and overdebiasing. Our contributions are fourfold: Firstly, we introduce a new construct grounded in labour economics, legal principles, and critiques of current bias benchmarks: hiring bias can be categorized into two types: Level bias (difference in the average outcomes between demographic counterfactual groups) and Spread bias (difference in the variance of outcomes between demographic counterfactual groups); Level bias can be further subdivided into statistical bias (i.e. changing with non-demographic content) and taste-based bias (i.e. consistent regardless of non-demographic content). Secondly, the framework includes rigorous statistical and computational hiring bias metrics, such as Rank After Scoring (RAS), Rank-based Impact Ratio, Permutation Test, and Fixed Effects Model. Thirdly, we analyze gender hiring biases in ten state-of-the-art LLMs. Seven out of ten LLMs show significant biases against males in at least one industry. An industry-effect regression reveals that the healthcare industry is the most biased against males. Moreover, we found that the bias performance remains invariant with resume content for eight out of ten LLMs. This indicates that the bias performance measured in this paper might apply to other resume datasets with different resume qualities. Fourthly, we provide a user-friendly demo and resume dataset to support the adoption and practical use of the framework, which can be generalized to other social traits and tasks."
 }
 ```
 
