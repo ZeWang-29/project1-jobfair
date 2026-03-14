@@ -1,14 +1,12 @@
 import json
 import http.client
-from openai import AzureOpenAI
-import time
-from tqdm import tqdm
-from typing import Any, List
-from botocore.exceptions import ClientError
-from enum import Enum
-import boto3
-import json
 import logging
+import os
+from enum import Enum
+
+from openai import AzureOpenAI
+from botocore.exceptions import ClientError
+import boto3
 
 
 class Model(Enum):
@@ -17,9 +15,14 @@ class Model(Enum):
 
 
 class Claude3Agent:
-    def __init__(self, aws_secret_access_key: str,model: str ):
-        self.client = boto3.client("bedrock-runtime", region_name="us-east-1", aws_access_key_id="AKIAZR6ZJPKTKJAMLP5W",
-                                   aws_secret_access_key=aws_secret_access_key)
+    def __init__(self, aws_secret_access_key: str, model: str,
+                 aws_access_key_id: str = None, region_name: str = "us-east-1"):
+        self.client = boto3.client(
+            "bedrock-runtime",
+            region_name=region_name,
+            aws_access_key_id=aws_access_key_id or os.environ.get("AWS_ACCESS_KEY_ID"),
+            aws_secret_access_key=aws_secret_access_key,
+        )
         if model == "SONNET":
             self.model = Model.CLAUDE3_SONNET
         elif model == "HAIKU":
@@ -27,7 +30,7 @@ class Claude3Agent:
         else:
             raise ValueError("Invalid model type. Please choose from 'SONNET' or 'HAIKU' models.")
 
-    def invoke(self, text: str,**kwargs) -> str:
+    def invoke(self, text: str, **kwargs) -> str:
         try:
             body = json.dumps(
                 {
@@ -45,6 +48,7 @@ class Claude3Agent:
             logging.error("Couldn't invoke model")
             raise
 
+
 class ContentFormatter:
     @staticmethod
     def chat_completions(text, settings_params):
@@ -54,6 +58,7 @@ class ContentFormatter:
         ]
         data = {"messages": message, **settings_params}
         return json.dumps(data)
+
 
 class AzureAgent:
     def __init__(self, api_key, azure_uri, deployment_name):
@@ -68,7 +73,7 @@ class AzureAgent:
     def invoke(self, text, **kwargs):
         body = self.chat_formatter.chat_completions(text, {**kwargs})
         conn = http.client.HTTPSConnection(self.azure_uri)
-        conn.request("POST", f'/v1/chat/completions', body=body, headers=self.headers)
+        conn.request("POST", '/v1/chat/completions', body=body, headers=self.headers)
         response = conn.getresponse()
         data = response.read()
         conn.close()
@@ -76,6 +81,7 @@ class AzureAgent:
         parsed_data = json.loads(decoded_data)
         content = parsed_data["choices"][0]["message"]["content"]
         return content
+
 
 class GPTAgent:
     def __init__(self, api_key, azure_endpoint, deployment_name, api_version):
@@ -96,4 +102,3 @@ class GPTAgent:
             **kwargs
         )
         return response.choices[0].message.content
-
