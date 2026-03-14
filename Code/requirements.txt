@@ -1,0 +1,9 @@
+openai
+pandas
+tqdm
+scipy
+statsmodels
+scikit-posthocs
+json-repair
+plotly
+boto3
